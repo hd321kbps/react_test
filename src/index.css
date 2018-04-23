@@ -1,0 +1,27 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+.book-selected{
+  background: #cef;
+}
+.like{
+  color: #369;
+  text-decoration: none;
+}
+.basket{
+position: fixed;
+background: rgba(255,255,255,.8);
+top:0;
+right: 0;
+margin: 20px;
+border: 1px solid rgba(0,0,0,.1);
+}
+.basket-item, .basket h3{
+padding: 5px 10px;
+}
+.basket-item span,
+.basket-item a {
+padding: 0 7px
+}
