@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import './index.css';
 
 function App(props) {
@@ -34,4 +35,14 @@ function App(props) {
         </main>
     );
 }
-ReactDOM.render(<App title={"React TODO"}/>, document.getElementById('root'));
+// App.propTypes = {
+//     title: PropTypes.string.isRequired
+// };
+App.propTypes = {
+    title: PropTypes.string
+};
+App.defaultProps = {
+    title: 'React TODO'
+};
+ReactDOM.render(<App />, document.getElementById('root'));
+// ReactDOM.render(<App title={"React TODO"}/>, document.getElementById('root'));
