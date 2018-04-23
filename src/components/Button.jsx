@@ -8,6 +8,7 @@ function Button(props) {
         </button>
     );
 }
+// const Button = props => <button className={props.className}><i className="material-icons">{props.icon}</i></button>;
 
 Button.propTypes = {
     className: PropTypes.string,
