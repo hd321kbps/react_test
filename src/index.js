@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import PropTypes from 'prop-types';
-import axios from 'axios';
 
 import todos from './todos';
 import Header from './components/Header';
@@ -12,77 +12,58 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            todos: []
+            todos: this.props.initialData
         };
         this.handleStatusChange = this.handleStatusChange.bind(this);
         this.handleAdd = this.handleAdd.bind(this);
         this.handleEdit = this.handleEdit.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
     }
-    componentDidMount() {
-        //fetch('http://localhost:3000/api/todos')
-        axios.get('/api/todos')
-            .then(response => response.data)
-            .then(todos => this.setState({ todos }))
-            .catch(this.handleError);
+    nextId() {
+        this._nextId = this._nextId || 4;
+        return this._nextId++;
     }
     handleStatusChange(id) {
-        axios.patch(`/api/todos/${id}`)
-        .then(response => {
-            const todos = this.state.todos.map(todo => {
-                if(todo.id === id) {
-                    todo = response.data;
-                }
-                return todo;
-            });
-            // this.state({todos: todos});
-            // ES2016
-            this.setState({todos});
-        })
-        .catch(this.handleError);
+        let todos = this.state.todos.map(todo => {
+            if(todo.id === id) {
+                todo.completed = !todo.completed;
+            }
+            return todo;
+        });
+        // this.state({todos: todos});
+        // ES2016
+        this.setState({todos});
     }
     handleAdd(title){
         //console.log(title);
-        axios.post('/api/todos', {title})
-        .then(response => response.date)
-        .then(todo => {
-            const todos = [...this.state.todos, todo];
-            this.setState({todos});
-        })
-        .catch(this.handleError);
+        let todo = {
+            id: this.nextId(),
+            title,
+            completed: false
+        };
+        let todos = [...this.state.todos, todo];
+        this.setState({todos});
     }
     handleEdit(id, title) {
-        axios.put(`/api/todos/${id}`, {title})
-        .then(response => {
-            const todos = this.state.todos.map(todo => {
-                if(todo.id === id) {
-                    todo = response.data;
-                }
-                return todo;
-            });
-            this.setState({todos});
-        })
-        .catch(this.handleError);
+        let todos = this.state.todos.map(todo => {
+            if(todo.id === id) {
+                todo.title = title;
+            }
+            return todo;
+        });
+        this.setState({todos});
     }
     handleDelete(id) {
-        axios.delete(`/api/todos/${id}`)
-        .then(() => {
-            const todos = this.state.todos.filter(todo => todo.id !== id);
-            this.setState({todos});
-        })
-        .catch(this.handleError);
-        
-    }
-    handleError(error) {
-        console.log(error.message);
+        let todos = this.state.todos.filter(todo => todo.id !== id);
+        this.setState({todos});
     }
     render() {
         return(
             <main>
                 <Header todos={this.state.todos} />
-                <section className="todo-list">
+                <ReactCSSTransitionGroup component="section" transitionName="slide" transitionAppear={true} transitionAppearTimeout={500} transitionEnterTimeout={500} transitionLeaveTimeout={500} className="todo-list">
                     {this.state.todos.map(todo => <Todo key={todo.id} id={todo.id} title={todo.title} completed={todo.completed} onStatusChange={this.handleStatusChange} onDelete={this.handleDelete} onEdit={this.handleEdit}/>)}
-                </section>
+                </ReactCSSTransitionGroup>
                 <Form onAdd={this.handleAdd}/>
             </main>
         );
