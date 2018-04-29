@@ -11,7 +11,38 @@ class Todo extends React.Component {
             editing: false
         };
         this.handleSubmit = this.handleSubmit.bind(this);
+        // console.log('constructor');
     }
+
+    // componentWillReceiveProps(nextProps){
+    //     console.log('componentWillReceiveProps');
+    //     console.log('nextProps', nextProps);
+    // }
+    // componentWillUpdate(nextProps, nextState){
+    //     console.log('componentWillUpdate');
+    //     console.log('nextProps', nextProps);
+    //     console.log('nextState', nextState);
+    // }
+    // shouldComponentUpdate(nextProps, nextState){
+    //     console.log('shouldComponentUpdate');
+    //     console.log('nextProps', nextProps);
+    //     console.log('nextState', nextState);
+    //     return false; // Должно лименяться состояние
+    // }
+    // componentWillMount(){
+    //     console.log('componentWillMount');
+    // }
+    // componentDidMount(){
+    //     console.log('componentDidMount');
+    // }
+    // componentDidUpdate(prevProps, prevState){
+    //     console.log('componentDidUpdate');
+    //     console.log('prevProps', prevProps);
+    //     console.log('prevState', prevState);
+    // }
+    // componentWillUnmount(){
+    //     console.log('componentWillUnmount');
+    // }
     handleSubmit(event) {
         event.preventDefault();
         let title = this.refs.title.value;
@@ -37,6 +68,7 @@ class Todo extends React.Component {
         );
     }
     render() {
+        // console.log('render');
         return this.state.editing ? this.renderForm() : this.renderDisplay();        
     }
 }
